@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{3C68ACC9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectiveMind.Business.Tests", "Tests\CollectiveMind.Business.Tests\CollectiveMind.Business.Tests.csproj", "{14791438-9523-4B0A-9265-6BE2A2D4367D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectiveMind.Data.Tests.Integration", "Tests\CollectiveMind.Data.Tests.Integration\CollectiveMind.Data.Tests.Integration.csproj", "{5270E845-27B0-4E2F-9802-908580E3E09D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "docker-compose", "docker-compose.dcproj", "{AC46B998-700A-4DA5-9E1F-42083F6C3610}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -34,11 +38,16 @@ Global
 		{14791438-9523-4B0A-9265-6BE2A2D4367D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14791438-9523-4B0A-9265-6BE2A2D4367D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14791438-9523-4B0A-9265-6BE2A2D4367D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5270E845-27B0-4E2F-9802-908580E3E09D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5270E845-27B0-4E2F-9802-908580E3E09D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5270E845-27B0-4E2F-9802-908580E3E09D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5270E845-27B0-4E2F-9802-908580E3E09D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{76994434-5B8F-4B12-8333-2E344170A8BB} = {76ACFCD9-8B18-4BED-BC8D-667498B03C34}
 		{FD66F9B3-18CC-4101-9312-828B95666645} = {76ACFCD9-8B18-4BED-BC8D-667498B03C34}
 		{5D7160F8-BAEB-4CDD-B882-0E70441B6750} = {76ACFCD9-8B18-4BED-BC8D-667498B03C34}
 		{14791438-9523-4B0A-9265-6BE2A2D4367D} = {3C68ACC9-AE9F-4888-9DB4-0448C6FB66FD}
+		{5270E845-27B0-4E2F-9802-908580E3E09D} = {3C68ACC9-AE9F-4888-9DB4-0448C6FB66FD}
 	EndGlobalSection
 EndGlobal
