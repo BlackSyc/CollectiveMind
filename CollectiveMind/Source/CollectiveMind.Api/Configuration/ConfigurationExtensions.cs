@@ -6,7 +6,7 @@ namespace CollectiveMind.Configuration
 	{
 		public static T GetConfigurationOrDefault<T>(this IConfiguration configuration)
 		{
-			var configurationSection = configuration.GetSection(nameof(T));
+			var configurationSection = configuration.GetSection(typeof(T).Name);
 			return configurationSection.Get<T>();
 		}
 	}

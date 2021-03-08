@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CollectiveMind.Configuration;
 using CollectiveMind.Configuration.Implementations;
 using CollectiveMind.Data.Configuration;
+using CollectiveMind.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,10 +33,7 @@ namespace CollectiveMind
 			services.AddDataServices(Configuration.GetConfigurationOrDefault<CollectiveMindDatabaseConfiguration>());
 			
 			services.AddControllers();
-			services.AddSwaggerGen(c =>
-			{
-				c.SwaggerDoc("v1", new OpenApiInfo {Title = "CollectiveMind.Api", Version = "v1"});
-			});
+			services.AddSwaggerServices();
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

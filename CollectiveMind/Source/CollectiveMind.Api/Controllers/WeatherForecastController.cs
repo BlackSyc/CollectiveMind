@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CollectiveMind.Data.Models;
+using CollectiveMind.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -18,9 +20,19 @@ namespace CollectiveMind.Controllers
 
 		private readonly ILogger<WeatherForecastController> _logger;
 
-		public WeatherForecastController(ILogger<WeatherForecastController> logger)
+		private readonly IStatementRepository _statementRepository;
+
+		public WeatherForecastController(ILogger<WeatherForecastController> logger, IStatementRepository statementRepository)
 		{
 			_logger = logger;
+			_statementRepository = statementRepository;
+		}
+
+		
+		[HttpPost]
+		public async Task<IActionResult> CreateStatement([FromBody] Statement statement)
+		{
+			return Ok(await _statementRepository.AddStatementAsync(statement));
 		}
 
 		[HttpGet]

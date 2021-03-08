@@ -2,27 +2,30 @@ version: '3.4'
 
 services:
   collectivemind.api:
-    image: ${DOCKER_REGISTRY-}collectivemind.api
+    environment:
+      - TZ=Europe/Amsterdam
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - CollectiveMindDatabaseConfiguration__ConnectionString=Server=database;Port=3306;Database=molenhopper;user=root;password=berehapsate
+      - CollectiveMindDatabaseConfiguration__DatabaseVersion=8.0.22
     build:
-      context: .
       dockerfile: Source/CollectiveMind.Api/Dockerfile
     ports:
       - "1000:80"
         
   database:
-    image: mysql:8.0.21
+    image: mysql:8.0.22
     environment:
       MYSQL_ROOT_PASSWORD: wachtwoord
-      MYSQL_DATABASE: identity
     ports:
-      - "2003:3306"
+      - "1003:3306"
         
   smtp4dev:
     image: rnwood/smtp4dev:v3
     restart: always
     ports:
       # Change the number before : to the port the web interface should be accessible on
-      - '2004:80'
+      - '1004:80'
       # Change the number before : to the port the SMTP server should be accessible on
       - '25:25'
       # Change the number before : to the port the IMAP server should be accessible on

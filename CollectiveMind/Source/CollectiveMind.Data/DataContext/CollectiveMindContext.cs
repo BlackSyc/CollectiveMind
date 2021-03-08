@@ -7,7 +7,7 @@ namespace CollectiveMind.Data.DataContext
 	/// Data context used to communicate with the database using Entity Framework.
 	/// 
 	/// Migrate this context with
-	/// "dotnet ef migrations add MIGRATION_NAME -c CollectiveMindContext -s ./Source/CollectiveMind.Api -p ./Source/CollectiveMindContext.Data".
+	/// "dotnet ef migrations add MIGRATION_NAME -c CollectiveMindContext -s ./Source/CollectiveMind.Api -p ./Source/CollectiveMind.Data".
 	/// </summary>
 	public class CollectiveMindContext : DbContext
 	{

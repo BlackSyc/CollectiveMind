@@ -8,7 +8,6 @@ namespace CollectiveMind.Data.Configuration
 {
 	public static class DataServicesConfiguration
 	{
-		
 		public static IServiceCollection AddDataServices(
 			this IServiceCollection serviceCollection, 
 			IDatabaseConfiguration collectiveMindDatabaseConfiguration)
