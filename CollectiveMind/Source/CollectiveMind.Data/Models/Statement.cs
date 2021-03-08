@@ -10,14 +10,12 @@ namespace CollectiveMind.Data.Models
 	{
 		public Guid Id { get; set; }
 		
-		public StatementValue Value { get; set;}
+		public string Title { get; set;}
+		
+		public string Content { get; set; }
 		
 		public List<Statement> NegativeArguments { get; set; }
 		
 		public List<Statement> PositiveArguments { get; set; }
-		
-		public List<Statement> NegativeArgumentFor { get; set; }
-		
-		public List<Statement> PositiveArgumentFor { get; set; }
 	}
 }

@@ -12,7 +12,7 @@ services:
   database:
     image: mysql:8.0.21
     environment:
-      MYSQL_ROOT_PASSWORD: berehapsate
+      MYSQL_ROOT_PASSWORD: wachtwoord
       MYSQL_DATABASE: identity
     ports:
       - "2003:3306"
