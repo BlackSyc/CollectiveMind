@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using CollectiveMind.Configuration;
 using CollectiveMind.Configuration.Implementations;
 using CollectiveMind.Data.Configuration;
+using CollectiveMind.Data.Migrations;
+using CollectiveMind.Graph.Configuration;
 using CollectiveMind.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -31,6 +33,7 @@ namespace CollectiveMind
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.AddDataServices(Configuration.GetConfigurationOrDefault<CollectiveMindDatabaseConfiguration>());
+			services.AddGraphServices(Configuration.GetConfigurationOrDefault<GraphConnectionDetails>());
 			
 			services.AddControllers();
 			services.AddSwaggerServices();
@@ -55,6 +58,8 @@ namespace CollectiveMind
 			app.UseAuthorization();
 
 			app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+			
+			app.UseDataServices();
 		}
 	}
 }

@@ -6,7 +6,7 @@
     <ProjectGuid>ac46b998-700a-4da5-9e1f-42083f6c3610</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>qarin.molenhopper.api</DockerServiceName>
+    <DockerServiceName>collectivemind.api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

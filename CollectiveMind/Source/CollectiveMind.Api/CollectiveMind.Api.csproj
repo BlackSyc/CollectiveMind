@@ -17,6 +17,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CollectiveMind.Data\CollectiveMind.Data.csproj" />
+      <ProjectReference Include="..\CollectiveMind.Graph\CollectiveMind.Graph.csproj" />
     </ItemGroup>
 
 </Project>

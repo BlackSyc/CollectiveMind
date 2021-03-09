@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CollectiveMind.Data.Models;
 using CollectiveMind.Data.Repositories;
+using CollectiveMind.Graph.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -20,19 +21,19 @@ namespace CollectiveMind.Controllers
 
 		private readonly ILogger<WeatherForecastController> _logger;
 
-		private readonly IStatementRepository _statementRepository;
+		private readonly IStatementNodeRepository _statementNodeRepository;
 
-		public WeatherForecastController(ILogger<WeatherForecastController> logger, IStatementRepository statementRepository)
+		public WeatherForecastController(ILogger<WeatherForecastController> logger, IStatementNodeRepository statementNodeRepository)
 		{
 			_logger = logger;
-			_statementRepository = statementRepository;
+			_statementNodeRepository = statementNodeRepository;
 		}
 
 		
 		[HttpPost]
-		public async Task<IActionResult> CreateStatement([FromBody] Statement statement)
+		public async Task<IActionResult> CreateStatement([FromBody] Graph.Nodes.Statement statement)
 		{
-			return Ok(await _statementRepository.AddStatementAsync(statement));
+			return Ok(await _statementNodeRepository.SaveAsync(statement));
 		}
 
 		[HttpGet]

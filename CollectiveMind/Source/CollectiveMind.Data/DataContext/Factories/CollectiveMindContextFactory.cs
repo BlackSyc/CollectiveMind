@@ -11,7 +11,7 @@ namespace CollectiveMind.Data.DataContext.Factories
 			var optionsBuilder = new DbContextOptionsBuilder<CollectiveMindContext>();
 
 			optionsBuilder.UseMySql(
-				"Server=localhost;Port=2003;database=CollectiveMind;user=root;password=wachtwoord",
+				"Server=localhost;Port=1003;database=CollectiveMind;user=root;password=wachtwoord",
 				new MySqlServerVersion(new Version(8,1,21)),
 				mySqlOptions => mySqlOptions.EnableRetryOnFailure());
 			
