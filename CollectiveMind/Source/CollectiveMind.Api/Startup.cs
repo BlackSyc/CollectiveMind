@@ -1,22 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CollectiveMind.Configuration;
 using CollectiveMind.Configuration.Implementations;
 using CollectiveMind.Data.Configuration;
-using CollectiveMind.Data.Migrations;
 using CollectiveMind.Graph.Configuration;
 using CollectiveMind.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 
 namespace CollectiveMind
 {

@@ -1,5 +1,4 @@
-﻿using CollectiveMind.Data.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CollectiveMind.Data.DataContext
 {
@@ -19,17 +18,6 @@ namespace CollectiveMind.Data.DataContext
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
-			
-			ConfigureStatementRelations(modelBuilder);
-		}
-
-		private static void ConfigureStatementRelations(ModelBuilder modelBuilder)
-		{
-			modelBuilder.Entity<Statement>()
-				.HasMany(x => x.PositiveArguments);
-
-			modelBuilder.Entity<Statement>()
-				.HasMany(x => x.NegativeArguments);
 		}
 	}
 }

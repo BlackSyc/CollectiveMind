@@ -1,7 +1,6 @@
 ﻿using System;
 using Ardalis.GuardClauses;
 using CollectiveMind.Data.DataContext;
-using CollectiveMind.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,8 +25,6 @@ namespace CollectiveMind.Data.Configuration
 					ServerVersion.FromString(collectiveMindDatabaseConfiguration.DatabaseVersion),
 					builder => builder.EnableRetryOnFailure());
 			});
-
-			serviceCollection.AddTransient<IStatementRepository, StatementRepository>();
 
 			return serviceCollection;
 		}

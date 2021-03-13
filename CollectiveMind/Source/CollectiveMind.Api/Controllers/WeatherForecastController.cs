@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CollectiveMind.Data.Models;
-using CollectiveMind.Data.Repositories;
 using CollectiveMind.Graph.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -33,7 +31,7 @@ namespace CollectiveMind.Controllers
 		[HttpPost]
 		public async Task<IActionResult> CreateStatement([FromBody] Graph.Nodes.Statement statement)
 		{
-			return Ok(await _statementNodeRepository.SaveAsync(statement));
+			return Ok(await _statementNodeRepository.CreateAsync(statement));
 		}
 
 		[HttpGet]

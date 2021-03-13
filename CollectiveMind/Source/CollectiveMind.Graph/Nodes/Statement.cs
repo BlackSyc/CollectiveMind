@@ -1,11 +1,8 @@
-﻿using System;
-
+﻿
 namespace CollectiveMind.Graph.Nodes
 {
-	public class Statement
+	public class Statement : Node
 	{
-		public string Id { get; set; }
-		
 		public string Title { get; set; }
 		
 		public string Body { get; set; }

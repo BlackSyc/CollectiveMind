@@ -5,6 +5,9 @@ namespace CollectiveMind.Graph.Repositories
 {
 	public interface IStatementNodeRepository
 	{
-		Task<Statement> SaveAsync(Statement statement);
+		Task<T> CreateAsync<T>(T node) where T : Node;
+
+		Task<(Statement, Statement)> CreateConnectedStatementAsync(Statement firstStatement, Statement secondStatement,
+			string relationType);
 	}
 }
