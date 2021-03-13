@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  collectivemind.api:
+    image: ${DOCKER_REGISTRY-}collectivemind.api
+    build:
+      context: .
+      dockerfile: Source/CollectiveMind.Api/Dockerfile

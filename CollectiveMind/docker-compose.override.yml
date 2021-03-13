@@ -1,0 +1,41 @@
+version: '3.4'
+
+services:
+  collectivemind.api:
+    environment:
+      - TZ=Europe/Amsterdam
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - CollectiveMindDatabaseConfiguration__ConnectionString=Server=database;Port=3306;Database=CollectiveMind;user=root;password=wachtwoord
+      - CollectiveMindDatabaseConfiguration__DatabaseVersion=8.0.22
+      - GraphConnectionDetails__Url=graph:7687
+      - GraphConnectionDetails__Username=neo4j
+      - GraphConnectionDetails__Password=wachtwoord
+    build:
+      dockerfile: Source/CollectiveMind.Api/Dockerfile
+    ports:
+      - "1000:80"
+        
+  database:
+    image: mysql:8.0.22
+    environment:
+      MYSQL_ROOT_PASSWORD: wachtwoord
+    ports:
+      - "1003:3306"
+      
+  graph:
+    image: neo4j:4.1.7
+    ports:
+      - "1001:7474"
+      - "1002:7687"
+        
+  smtp4dev:
+    image: rnwood/smtp4dev:v3
+    restart: always
+    ports:
+      # Change the number before : to the port the web interface should be accessible on
+      - '1004:80'
+      # Change the number before : to the port the SMTP server should be accessible on
+      - '25:25'
+      # Change the number before : to the port the IMAP server should be accessible on
+      - '143:143'
