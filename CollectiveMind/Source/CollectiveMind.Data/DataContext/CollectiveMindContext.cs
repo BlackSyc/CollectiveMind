@@ -10,14 +10,13 @@ namespace CollectiveMind.Data.DataContext
 	/// </summary>
 	public class CollectiveMindContext : DbContext
 	{
+		/// <summary>
+		/// Default constructor for creating a new instance of <see cref="CollectiveMindContext"/>.
+		/// </summary>
+		/// <param name="options">Context options used to create the instance.</param>
 		public CollectiveMindContext(DbContextOptions<CollectiveMindContext> options) 
 			: base(options)
 		{
-		}
-
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
-		{
-			base.OnModelCreating(modelBuilder);
 		}
 	}
 }

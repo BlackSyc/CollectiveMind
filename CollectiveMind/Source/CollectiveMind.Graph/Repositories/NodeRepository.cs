@@ -6,26 +6,36 @@ using System.Threading;
 using System.Threading.Tasks;
 using CollectiveMind.Graph.Entities.Nodes;
 using CollectiveMind.Graph.Entities.Relations;
+using CollectiveMind.Graph.Exceptions;
 using Neo4j.Driver;
 using Newtonsoft.Json;
 
 namespace CollectiveMind.Graph.Repositories
 {
+	/// <inheritdoc />
 	public class NodeRepository : INodeRepository
 	{
+		/// <summary>
+		/// The graph session used for communication with the graph.
+		/// </summary>
 		protected readonly IAsyncSession GraphSession;
 
-		public NodeRepository(IDriver graphDriver)
+		/// <summary>
+		/// Default constructor for creating a new instance of <see cref="NodeRepository"/>.
+		/// </summary>
+		/// <param name="graphDriver">The graph driver used for communication with the graph.</param>
+		protected NodeRepository(IDriver graphDriver)
 		{
 			GraphSession = graphDriver.AsyncSession();
 		}
 		
+		/// <inheritdoc />
 		public async Task<TNode> CreateAsync<TNode>(TNode node) 
 			where TNode : Node
 		{
 			if (node.Id != default)
 			{
-				throw new Exception("Could not create node: The Id must be empty.");
+				throw new InvalidIdentifierException(node.Id);
 			}
 
 			node.Id = Guid.NewGuid();
@@ -50,6 +60,7 @@ namespace CollectiveMind.Graph.Repositories
 			return JsonConvert.DeserializeObject<TNode>(newNodeJson);
 		}
 		
+		/// <inheritdoc />
 		public async Task<TNode> GetOrDefaultAsync<TNode>(Guid identifier, CancellationToken cancellationToken = default)
 			where TNode : Node
 		{
@@ -70,6 +81,7 @@ namespace CollectiveMind.Graph.Repositories
 			return JsonConvert.DeserializeObject<TNode>(newNodeJson);
 		}
 
+		/// <inheritdoc />
 		public async Task<bool> ExistsAsync<TNode>(Guid nodeId, CancellationToken cancellationToken = default)
 			where TNode : Node
 		{
@@ -89,6 +101,7 @@ namespace CollectiveMind.Graph.Repositories
 			return result?.Keys?.Contains("existingNode") ?? false;
 		}
 		
+		/// <inheritdoc />
 		public async Task<IEnumerable<TNode>> GetRelatedNodesAsync<TRelation, TNode>(Guid originNodeId, 
 			CancellationToken cancellationToken = default) 
 			where TRelation : Relation
@@ -107,17 +120,8 @@ namespace CollectiveMind.Graph.Repositories
 				.Select(JsonConvert.DeserializeObject<TNode>);
 		}
 
-		protected static string ToCustomJson(object node)
-		{
-			var nodeJson = JsonConvert.SerializeObject(node);
-			
-			string regexPattern = "\"([^\"]+)\":"; // the "propertyName": pattern
-			
-			return Regex.Replace(nodeJson, regexPattern, "$1:");
-		}
-
-
-		protected async Task<TLinkedNode> LinkExistingNodesAsync<TRelation, TLinkedNode>(Guid originNodeId, Guid linkedNodeId) 
+		/// <inheritdoc />
+		public async Task<TLinkedNode> LinkExistingNodesAsync<TRelation, TLinkedNode>(Guid originNodeId, Guid linkedNodeId) 
 			where TRelation : Relation 
 			where TLinkedNode : Node
 		{
@@ -145,13 +149,14 @@ namespace CollectiveMind.Graph.Repositories
 			return JsonConvert.DeserializeObject<TLinkedNode>(linkedNodeJson);
 		}
 
-		protected async Task<TNode> CreateRelatedNodeAsync<TRelation, TNode>(Guid originNodeId, TNode newNode) 
+		/// <inheritdoc />
+		public async Task<TNode> CreateRelatedNodeAsync<TRelation, TNode>(Guid originNodeId, TNode newNode) 
 			where TRelation : Relation
 			where TNode : Node
 		{
 			if (newNode.Id != default)
 			{
-				throw new Exception("Could not create node: The Id must be empty.");
+				throw new InvalidIdentifierException(newNode.Id);
 			}
 
 			newNode.Id = Guid.NewGuid();
@@ -180,6 +185,20 @@ namespace CollectiveMind.Graph.Repositories
 
 			var relatedNodeJson = JsonConvert.SerializeObject(relatedNodeProperties);
 			return JsonConvert.DeserializeObject<TNode>(relatedNodeJson);
+		}
+		
+		/// <summary>
+		/// Converts a class to graph-specific JSON needed in a CYPHER-create query.
+		/// </summary>
+		/// <param name="node">The node that will be converted.</param>
+		/// <returns>A string containing the converted JSON.</returns>
+		protected static string ToCustomJson(object node)
+		{
+			const string regexPattern = "\"([^\"]+)\":"; // the "propertyName": pattern
+			
+			var nodeJson = JsonConvert.SerializeObject(node);
+
+			return Regex.Replace(nodeJson, regexPattern, "$1:");
 		}
 	}
 }

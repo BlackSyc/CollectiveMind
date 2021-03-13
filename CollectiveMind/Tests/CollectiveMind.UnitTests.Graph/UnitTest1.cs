@@ -49,31 +49,6 @@ namespace CollectiveMind.UnitTests.Graph
 			Assert.True(Equal(newStatement, statement));
 		}
 
-		[Fact]
-		public async Task CreateTwoNodesWithSimpleRelationship()
-		{
-			var driver =
-				GraphDatabase.Driver(new Uri("bolt://localhost:1002"), AuthTokens.Basic("neo4j", "wachtwoord"));
-			var statementRepo = new StatementRepository(driver);
-
-			var newFirstStatement = new Statement
-			{
-				Title = "I am a statement",
-				Body = "about relationships."
-			};
-			var newSecondStatement = new Statement
-			{
-				Title = "I am an argument",
-				Body = "for the statement about relationships."
-			};
-			var statement = await statementRepo.CreateConnectedStatementAsync(newFirstStatement, newSecondStatement, "PositiveArgument");
-
-			Assert.NotNull(statement.Item1);
-			Assert.NotNull(statement.Item2);
-			Assert.True(Equal(newFirstStatement, statement.Item1));
-			Assert.True(Equal(newSecondStatement, statement.Item2));
-		}
-
 		public bool Equal<T>(T expected, T actual)
 		{
 			var expectedJson = JsonConvert.SerializeObject(expected);

@@ -9,9 +9,20 @@ using Polly;
 
 namespace CollectiveMind.Data.Configuration
 {
+	/// <summary>
+	/// Configuration extensions for the storage services in this project.
+	/// </summary>
 	public static class DataServicesConfiguration
 	{
-		public static IServiceCollection AddDataServices(
+		/// <summary>
+		/// Registers storage services to the specified service collection.
+		/// </summary>
+		/// <param name="serviceCollection">The service collection to which the storage services
+		/// will be registered.</param>
+		/// <param name="collectiveMindDatabaseConfiguration">The configuration required to connect to the
+		/// database.</param>
+		/// <returns>The service collection to which the services were registered.</returns>
+		public static IServiceCollection RegisterDataServices(
 			this IServiceCollection serviceCollection, 
 			IDatabaseConfiguration collectiveMindDatabaseConfiguration)
 		{
@@ -29,7 +40,13 @@ namespace CollectiveMind.Data.Configuration
 			return serviceCollection;
 		}
 
-		public static IApplicationBuilder UseDataServices(this IApplicationBuilder applicationBuilder)
+		/// <summary>
+		/// Configures the application data while building the application.
+		/// </summary>
+		/// <param name="applicationBuilder">The application builder that will be used to configure the application
+		/// data.</param>
+		/// <returns>The application builder that was used to configure the application data.</returns>
+		public static IApplicationBuilder ConfigureApplicationData(this IApplicationBuilder applicationBuilder)
 		{
 			applicationBuilder.MigrateDatabase<CollectiveMindContext>();
 			return applicationBuilder;
@@ -58,7 +75,7 @@ namespace CollectiveMind.Data.Configuration
 				.WaitAndRetry(
 					times,
 					retryAttempt => TimeSpan.FromSeconds(Math.Pow(retryDelay, retryAttempt)),
-					(exception, timeSpan, retry, context) =>
+					(exception, timeSpan, retry, _) =>
 					{
 						logger.LogWarning(
 							exception, 

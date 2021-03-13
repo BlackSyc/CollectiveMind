@@ -2,8 +2,14 @@
 
 namespace CollectiveMind.Graph.Entities
 {
-	public class Entity
+	/// <summary>
+	/// Abstract representation of any stored entity within a graph.
+	/// </summary>
+	public abstract class Entity
 	{
+		/// <summary>
+		/// The identifier of the stored entity.
+		/// </summary>
 		public virtual Guid Id { get; set; }
 	}
 }

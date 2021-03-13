@@ -1,7 +1,8 @@
-﻿namespace CollectiveMind.Graph.Entities.Relations
+﻿// ReSharper disable ClassNeverInstantiated.Global
+namespace CollectiveMind.Graph.Entities.Relations
 {
-	public class PositiveArgument : Relation
-	{
-		
-	}
+	/// <summary>
+	/// Represents a positive argument relation between two nodes.
+	/// </summary>
+	public class PositiveArgument : Relation { }
 }

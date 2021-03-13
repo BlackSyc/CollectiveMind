@@ -1,7 +1,7 @@
 ﻿namespace CollectiveMind.Graph.Entities.Relations
 {
-	public class Relation : Entity
-	{
-		
-	}
+	/// <summary>
+	/// Abstract representation of a relation between two nodes.
+	/// </summary>
+	public abstract class Relation : Entity { }
 }

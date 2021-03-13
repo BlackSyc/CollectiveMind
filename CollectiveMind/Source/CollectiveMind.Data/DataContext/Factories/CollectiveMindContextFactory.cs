@@ -4,9 +4,16 @@ using Microsoft.EntityFrameworkCore.Design;
 
 namespace CollectiveMind.Data.DataContext.Factories
 {
+	/// <summary>
+	/// Design-time factory used to create migrations.
+	/// </summary>
 	public class CollectiveMindContextFactory : IDesignTimeDbContextFactory<CollectiveMindContext>
 	{
-		public CollectiveMindContext CreateDbContext(string[] args)
+		/// <summary>
+		/// Creates a new <see cref="CollectiveMindContext"/> instance for design-time use for migrations.
+		/// </summary>
+		/// <returns>The newly created context.</returns>
+		public CollectiveMindContext CreateDbContext(string[] _)
 		{
 			var optionsBuilder = new DbContextOptionsBuilder<CollectiveMindContext>();
 
