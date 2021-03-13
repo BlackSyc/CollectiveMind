@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using CollectiveMind.Graph.Repositories;
+using CollectiveMind.Business.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollectiveMind.Controllers
@@ -9,35 +9,23 @@ namespace CollectiveMind.Controllers
 	[Route("[controller]")]
 	public class StatementController : ControllerBase
 	{
-		private readonly IStatementNodeRepository _statementNodeRepository;
+		private readonly IStatementService _statementService;
 
-		public StatementController(IStatementNodeRepository statementNodeRepository)
+		public StatementController(IStatementService statementService)
 		{
-			_statementNodeRepository = statementNodeRepository;
+			_statementService = statementService;
 		}
-		
+
 		[HttpGet("{statementId}")]
 		public async Task<IActionResult> Get([FromRoute] Guid statementId)
 		{
-			return Ok();
+			return Ok(await _statementService.GetStatementByIdAsync(statementId, HttpContext.RequestAborted));
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] Graph.Nodes.Statement statement)
 		{
-			return Ok(await _statementNodeRepository.CreateAsync(statement));
-		}
-		
-		[HttpPut]
-		public async Task<IActionResult> Put([FromQuery] Guid statementId, [FromBody] Graph.Nodes.Statement statement)
-		{
-			return Ok();
-		}
-		
-		[HttpDelete]
-		public async Task<IActionResult> Delete([FromQuery] Guid statementId)
-		{
-			return Ok();
+			return Ok(await _statementService.CreateStatementAsync(statement));
 		}
 	}
 }

@@ -16,6 +16,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\CollectiveMind.Business\CollectiveMind.Business.csproj" />
       <ProjectReference Include="..\CollectiveMind.Data\CollectiveMind.Data.csproj" />
       <ProjectReference Include="..\CollectiveMind.Graph\CollectiveMind.Graph.csproj" />
     </ItemGroup>

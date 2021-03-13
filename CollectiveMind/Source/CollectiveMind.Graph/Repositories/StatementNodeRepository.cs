@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using CollectiveMind.Graph.Nodes;
@@ -9,13 +7,10 @@ using Newtonsoft.Json;
 
 namespace CollectiveMind.Graph.Repositories
 {
-	public class StatementNodeRepository : IStatementNodeRepository
+	public class StatementNodeRepository : NodeRepository, IStatementNodeRepository
 	{
-		private readonly IAsyncSession _graphSession;
-
-		public StatementNodeRepository(IDriver graphDriver)
+		public StatementNodeRepository(IDriver graphDriver) : base(graphDriver)
 		{
-			_graphSession = graphDriver.AsyncSession();
 		}
 
 		public async Task<(Statement, Statement)> CreateConnectedStatementAsync(Statement firstStatement, Statement secondStatement, string relationType)
@@ -33,7 +28,7 @@ namespace CollectiveMind.Graph.Repositories
 
 			var query = $"CREATE (firstNode:{nameof(Statement)} {firstStatementJson})-[:{relationType}]->(secondNode:{nameof(Statement)} {secondStatementJson}) RETURN *";
 
-			var result = await _graphSession
+			var result = await GraphSession
 				.WriteTransactionAsync(async tx =>
 				{
 					var res = await tx.RunAsync(query);
@@ -57,62 +52,24 @@ namespace CollectiveMind.Graph.Repositories
 			return (newFirstNode, newSecondNode);
 		}
 
-		public async Task<T> CreateAsync<T>(T node) where T : Node
+		public Task<Statement> GetByIdOrDefaultAsync(Guid statementId, CancellationToken cancellationToken)
 		{
-			if (node.Id != default)
-			{
-				throw new Exception("Could not create node: The Id must be empty.");
-			}
-
-			node.Id = Guid.NewGuid();
-			var nodeJson = ToCustomJson(node);
-
-			var query = $"CREATE (newNode:{typeof(T).Name} {nodeJson}) RETURN newNode";
-			
-			var result = await _graphSession
-				.WriteTransactionAsync(async tx =>
-				{
-					var res = await tx.RunAsync(query);
-					if (await res.FetchAsync())
-					{
-						return res.Current;
-					}
-					return null;
-				});
-
-			var firstLevel = result["newNode"].As<INode>().Properties;
-
-			var newNodeJson = JsonConvert.SerializeObject(firstLevel);
-			return JsonConvert.DeserializeObject<T>(newNodeJson);
+			return GetOrDefaultAsync<Statement>(statementId, cancellationToken);
 		}
 
-		public async Task<T> GetOrDefaultAsync<T>(Guid identifier, CancellationToken cancellationToken)
+		public Task<Statement> CreateRelatedStatementAsync(Guid statementId, Statement newArgument, string relationName)
 		{
-			var query = "MATCH (existingNode {Id: '" + identifier + "'}) RETURN existingNode";
-			var result = await _graphSession.ReadTransactionAsync(async tx =>
-			{
-				var res = tx.RunAsync(query);
-				if (await res.Result.FetchAsync())
-				{
-					return res.Result.Current;
-				}
-				return null;
-			});
-			
-			var firstLevel = result["existingNode"].As<INode>().Properties;
-
-			var newNodeJson = JsonConvert.SerializeObject(firstLevel);
-			return JsonConvert.DeserializeObject<T>(newNodeJson);
+			throw new NotImplementedException();
 		}
 
-		private static string ToCustomJson(object node)
+		public Task<bool> ExistsAsync(Guid nodeId, CancellationToken cancellationToken = default)
 		{
-			var nodeJson = JsonConvert.SerializeObject(node);
-			
-			string regexPattern = "\"([^\"]+)\":"; // the "propertyName": pattern
-			
-			return Regex.Replace(nodeJson, regexPattern, "$1:");
+			return ExistsAsync<Statement>(nodeId, cancellationToken);
 		}
-		
+
+		public Task<Statement> CreateAsync(Statement newStatement)
+		{
+			return base.CreateAsync(newStatement);
+		}
 	}
 }
