@@ -1,5 +1,5 @@
 ﻿
-namespace CollectiveMind.Graph.Nodes
+namespace CollectiveMind.Graph.Entities.Nodes
 {
 	public class Statement : Node
 	{

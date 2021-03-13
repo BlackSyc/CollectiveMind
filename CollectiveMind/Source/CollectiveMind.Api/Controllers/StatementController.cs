@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CollectiveMind.Business.Services;
+using CollectiveMind.Graph.Entities.Nodes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollectiveMind.Controllers
@@ -23,7 +24,7 @@ namespace CollectiveMind.Controllers
 		}
 
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody] Graph.Nodes.Statement statement)
+		public async Task<IActionResult> Post([FromBody] Statement statement)
 		{
 			return Ok(await _statementService.CreateStatementAsync(statement));
 		}

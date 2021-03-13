@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CollectiveMind.Graph.Nodes;
+using CollectiveMind.Graph.Entities.Nodes;
 
 namespace CollectiveMind.Business.Services
 {
@@ -10,9 +10,5 @@ namespace CollectiveMind.Business.Services
 		Task<Statement> GetStatementByIdAsync(Guid statementId, CancellationToken cancellationToken = default);
 
 		Task<Statement> CreateStatementAsync(Statement newStatement);
-
-		Task<Statement> UpdateStatementAsync(Guid statementId, Statement statement);
-
-		Task<Statement> DeleteStatementAsync(Guid statementId);
 	}
 }

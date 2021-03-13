@@ -20,7 +20,7 @@ namespace CollectiveMind.Graph.Configuration
 					new Uri($"bolt://{graphConnectionDetails.Url}"),
 				AuthTokens.Basic(graphConnectionDetails.Username, graphConnectionDetails.Password)));
 
-			serviceCollection.AddTransient<IStatementNodeRepository, StatementNodeRepository>();
+			serviceCollection.AddTransient<IStatementRepository, StatementRepository>();
 
 			return serviceCollection;
 		}

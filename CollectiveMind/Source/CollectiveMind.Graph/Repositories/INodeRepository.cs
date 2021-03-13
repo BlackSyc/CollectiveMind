@@ -1,16 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CollectiveMind.Graph.Nodes;
+using CollectiveMind.Graph.Entities.Nodes;
+using CollectiveMind.Graph.Entities.Relations;
 
 namespace CollectiveMind.Graph.Repositories
 {
 	public interface INodeRepository
 	{
-		Task<T> CreateAsync<T>(T node) where T : Node;
+		Task<TNode> CreateAsync<TNode>(TNode node) 
+			where TNode : Node;
 
-		Task<T> GetOrDefaultAsync<T>(Guid identifier, CancellationToken cancellationToken = default);
+		Task<TNode> GetOrDefaultAsync<TNode>(Guid identifier, CancellationToken cancellationToken = default)
+			where TNode : Node;
 		
-		Task<bool> ExistsAsync<T>(Guid nodeId, CancellationToken cancellationToken = default);
+		Task<bool> ExistsAsync<TNode>(Guid nodeId, CancellationToken cancellationToken = default) 
+			where TNode : Node;
+
+		Task<IEnumerable<TNode>> GetRelatedNodesAsync<TRelation, TNode>(Guid statementId, CancellationToken cancellationToken = default) 
+			where TRelation : Relation 
+			where TNode : Node;
 	}
 }

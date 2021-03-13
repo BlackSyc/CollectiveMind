@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using CollectiveMind.Graph.Nodes;
+using CollectiveMind.Graph.Entities.Nodes;
 using CollectiveMind.Graph.Repositories;
 using Neo4j.Driver;
 using Newtonsoft.Json;
@@ -16,7 +16,7 @@ namespace CollectiveMind.UnitTests.Graph
 		{
 			var driver =
 				GraphDatabase.Driver(new Uri("bolt://localhost:1002"), AuthTokens.Basic("neo4j", "wachtwoord"));
-			var statementRepo = new StatementNodeRepository(driver);
+			var statementRepo = new StatementRepository(driver);
 
 			var newStatement = new Statement
 			{
@@ -35,7 +35,7 @@ namespace CollectiveMind.UnitTests.Graph
 		{
 			var driver =
 				GraphDatabase.Driver(new Uri("bolt://localhost:1002"), AuthTokens.Basic("neo4j", "wachtwoord"));
-			var statementRepo = new StatementNodeRepository(driver);
+			var statementRepo = new StatementRepository(driver);
 
 			var newStatement = await statementRepo.CreateAsync(new Statement
 			{
@@ -54,7 +54,7 @@ namespace CollectiveMind.UnitTests.Graph
 		{
 			var driver =
 				GraphDatabase.Driver(new Uri("bolt://localhost:1002"), AuthTokens.Basic("neo4j", "wachtwoord"));
-			var statementRepo = new StatementNodeRepository(driver);
+			var statementRepo = new StatementRepository(driver);
 
 			var newFirstStatement = new Statement
 			{

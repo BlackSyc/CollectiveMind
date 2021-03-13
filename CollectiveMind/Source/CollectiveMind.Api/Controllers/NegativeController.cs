@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using CollectiveMind.Business.Services.Arguments;
-using CollectiveMind.Graph.Nodes;
+using CollectiveMind.Graph.Entities.Nodes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollectiveMind.Controllers
@@ -31,6 +31,12 @@ namespace CollectiveMind.Controllers
 		public async Task<IActionResult> Post([FromRoute] Guid statementId, [FromBody] Statement statement)
 		{
 			return Ok(await _negativeArgumentService.CreateArgumentForAsync(statementId, statement));
+		}
+
+		[HttpPost("/Statement/{statementId}/Negative/{argumentId}")]
+		public async Task<IActionResult> Create([FromRoute] Guid statementId, [FromRoute] Guid argumentId)
+		{
+			return Ok(await _negativeArgumentService.LinkExistingArgumentAsync(statementId, argumentId));
 		}
 	}
 }

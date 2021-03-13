@@ -1,13 +1,11 @@
-﻿using CollectiveMind.Business.Models;
+﻿using CollectiveMind.Graph.Entities.Relations;
 using CollectiveMind.Graph.Repositories;
 
 namespace CollectiveMind.Business.Services.Arguments
 {
-	public class PositiveArgumentService : ArgumentService, IPositiveArgumentService
+	public class PositiveArgumentService : ArgumentService<PositiveArgument>, IPositiveArgumentService
 	{
-		protected override ArgumentType ArgumentType => ArgumentType.Positive;
-
-		public PositiveArgumentService(IStatementNodeRepository statementNodeRepository) : base(statementNodeRepository)
+		public PositiveArgumentService(IStatementRepository statementRepository) : base(statementRepository)
 		{
 		}
 	}

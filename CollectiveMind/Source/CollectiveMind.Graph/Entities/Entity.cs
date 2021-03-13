@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace CollectiveMind.Graph.Nodes
+namespace CollectiveMind.Graph.Entities
 {
-	public abstract class Node
+	public class Entity
 	{
 		public virtual Guid Id { get; set; }
 	}

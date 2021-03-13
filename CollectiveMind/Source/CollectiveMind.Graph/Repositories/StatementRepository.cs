@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using CollectiveMind.Graph.Nodes;
+using CollectiveMind.Graph.Entities.Nodes;
+using CollectiveMind.Graph.Entities.Relations;
 using Neo4j.Driver;
 using Newtonsoft.Json;
 
 namespace CollectiveMind.Graph.Repositories
 {
-	public class StatementNodeRepository : NodeRepository, IStatementNodeRepository
+	public class StatementRepository : NodeRepository, IStatementRepository
 	{
-		public StatementNodeRepository(IDriver graphDriver) : base(graphDriver)
+		public StatementRepository(IDriver graphDriver) : base(graphDriver)
 		{
 		}
 
@@ -57,9 +59,10 @@ namespace CollectiveMind.Graph.Repositories
 			return GetOrDefaultAsync<Statement>(statementId, cancellationToken);
 		}
 
-		public Task<Statement> CreateRelatedStatementAsync(Guid statementId, Statement newArgument, string relationName)
+		public Task<Statement> CreateRelatedStatementAsync<TRelation>(Guid statementId, Statement newArgument)
+			where TRelation : Relation
 		{
-			throw new NotImplementedException();
+			return base.CreateRelatedNodeAsync<TRelation, Statement>(statementId, newArgument);
 		}
 
 		public Task<bool> ExistsAsync(Guid nodeId, CancellationToken cancellationToken = default)
@@ -70,6 +73,16 @@ namespace CollectiveMind.Graph.Repositories
 		public Task<Statement> CreateAsync(Statement newStatement)
 		{
 			return base.CreateAsync(newStatement);
+		}
+
+		public Task<IEnumerable<Statement>> GetRelatedStatements<TRelation>(Guid statementId, CancellationToken cancellationToken = default) where TRelation : Relation
+		{
+			return base.GetRelatedNodesAsync<TRelation, Statement>(statementId, cancellationToken);
+		}
+
+		public Task<Statement> LinkExistingStatements<TRelation>(Guid statementId, Guid argumentId) where TRelation : Relation
+		{
+			return base.LinkExistingNodesAsync<TRelation, Statement>(statementId, argumentId);
 		}
 	}
 }

@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
-using CollectiveMind.Business.Models;
+using CollectiveMind.Graph.Entities.Nodes;
+using CollectiveMind.Graph.Entities.Relations;
 using CollectiveMind.Graph.Exceptions;
-using CollectiveMind.Graph.Nodes;
 using CollectiveMind.Graph.Repositories;
 
 namespace CollectiveMind.Business.Services.Arguments
 {
-	public abstract class ArgumentService : IArgumentService
+	public abstract class ArgumentService<T> : IArgumentService where T : Relation
 	{
-		protected abstract ArgumentType ArgumentType { get; }
+		private readonly IStatementRepository _statementRepository;
 
-		private readonly IStatementNodeRepository _statementNodeRepository;
-
-		protected ArgumentService(IStatementNodeRepository statementNodeRepository)
+		protected ArgumentService(IStatementRepository statementRepository)
 		{
-			_statementNodeRepository = statementNodeRepository;
+			_statementRepository = statementRepository;
 		}
 
 		public async Task<Statement> CreateArgumentForAsync(Guid statementId, Statement newArgument)
@@ -26,24 +24,44 @@ namespace CollectiveMind.Business.Services.Arguments
 			Guard.Against.Default(statementId, nameof(statementId));
 			Guard.Against.Null(newArgument, nameof(newArgument));
 			
-			if (!await _statementNodeRepository.ExistsAsync(statementId))
+			if (!await _statementRepository.ExistsAsync(statementId))
 			{
 				throw new EntityNotFoundException(statementId, typeof(Statement));
 			}
 			
-			var argument = await _statementNodeRepository
-				.CreateRelatedStatementAsync(statementId, newArgument, ArgumentType.ToString());
+			var argument = await _statementRepository
+				.CreateRelatedStatementAsync<T>(statementId, newArgument);
 			return argument;
 		}
 
-		public Task<IEnumerable<Statement>> GetArgumentsForAsync(Guid statementId, CancellationToken cancellationToken = default)
+		public async Task<IEnumerable<Statement>> GetArgumentsForAsync(Guid statementId, CancellationToken cancellationToken = default)
 		{
-			throw new NotImplementedException();
+			Guard.Against.Default(statementId, nameof(statementId));
+
+			if (!await _statementRepository.ExistsAsync(statementId, cancellationToken))
+			{
+				throw new EntityNotFoundException(statementId, typeof(Statement));
+			}
+			
+			return await _statementRepository.GetRelatedStatements<T>(statementId, cancellationToken);
 		}
 
-		public Task<Statement> LinkExistingArgumentAsync(Guid statementId, Guid argumentId)
+		public async Task<Statement> LinkExistingArgumentAsync(Guid statementId, Guid argumentId)
 		{
-			throw new NotImplementedException();
+			Guard.Against.Default(statementId, nameof(statementId));
+			Guard.Against.Default(argumentId, nameof(argumentId));
+			
+			if (!await _statementRepository.ExistsAsync(statementId))
+			{
+				throw new EntityNotFoundException(statementId, typeof(Statement));
+			}
+			
+			if (!await _statementRepository.ExistsAsync(argumentId))
+			{
+				throw new EntityNotFoundException(argumentId, typeof(Statement));
+			}
+
+			return await _statementRepository.LinkExistingStatements<T>(statementId, argumentId);
 		}
 	}
 }
