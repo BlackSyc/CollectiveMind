@@ -75,5 +75,16 @@ namespace CollectiveMind.Graph.Repositories
 		/// <returns>The updated linked statement as present on the graph.</returns>
 		Task<Statement> LinkExistingStatements<T>(Guid statementId, Guid argumentId) 
 			where T : Relation;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="searchFilter"></param>
+		/// <param name="skip"></param>
+		/// <param name="limit"></param>
+		/// <param name="cancellationToken"></param>
+		/// <returns></returns>
+		Task<IEnumerable<Statement>> SearchByTitleAsync(string searchFilter, int skip, int limit,
+			CancellationToken cancellationToken = default);
 	}
 }

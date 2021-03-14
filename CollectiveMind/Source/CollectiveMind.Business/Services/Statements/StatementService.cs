@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
@@ -45,6 +46,14 @@ namespace CollectiveMind.Business.Services.Statements
 			var statement = await _statementRepository.CreateAsync(newStatement);
 
 			return statement;
+		}
+
+		/// <inheritdoc />
+		public Task<IEnumerable<Statement>> SearchByTitleAsync(string searchFilter, int skip, int limit, CancellationToken cancellationToken = default)
+		{
+			Guard.Against.NullOrEmpty(searchFilter, nameof(searchFilter));
+
+			return _statementRepository.SearchByTitleAsync(searchFilter, skip, limit, cancellationToken);
 		}
 	}
 }

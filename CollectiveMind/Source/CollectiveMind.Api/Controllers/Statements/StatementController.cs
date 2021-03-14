@@ -39,6 +39,19 @@ namespace CollectiveMind.Controllers.Statements
 		/// <summary>
 		/// 
 		/// </summary>
+		/// <param name="searchFilter"></param>
+		/// <param name="skip"></param>
+		/// <param name="limit"></param>
+		/// <returns></returns>
+		[HttpGet("/Search")]
+		public async Task<IActionResult> Search([FromQuery] string searchFilter, [FromQuery] int skip = 0, int limit = 10)
+		{
+			return Ok(await _statementService.SearchByTitleAsync(searchFilter, skip, limit, HttpContext.RequestAborted));
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
 		/// <param name="statement"></param>
 		/// <returns></returns>
 		[HttpPost]

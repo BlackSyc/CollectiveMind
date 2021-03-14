@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using CollectiveMind.Graph.Entities.Nodes;
@@ -27,5 +28,8 @@ namespace CollectiveMind.Business.Services.Statements
 		/// <param name="newStatement">The statement that will be created.</param>
 		/// <returns>The newly created statement.</returns>
 		Task<Statement> CreateStatementAsync(Statement newStatement);
+
+		Task<IEnumerable<Statement>> SearchByTitleAsync(string searchFilter, int skip, int limit,
+			CancellationToken cancellationToken = default);
 	}
 }
