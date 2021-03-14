@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CollectiveMind.Business.Services.Statements;
 using CollectiveMind.Graph.Entities.Nodes;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollectiveMind.Controllers.Statements
@@ -30,6 +33,9 @@ namespace CollectiveMind.Controllers.Statements
 		/// </summary>
 		/// <param name="statementId">The identifier of the <see cref="Statement"/> that will be retrieved.</param>
 		/// <returns>A <see cref="Statement"/> with matching specified identifier.</returns>
+		[ProducesResponseType(typeof(Statement), StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[HttpGet("{statementId}")]
 		public async Task<IActionResult> Get([FromRoute] Guid statementId)
 		{
@@ -43,6 +49,7 @@ namespace CollectiveMind.Controllers.Statements
 		/// <param name="skip"></param>
 		/// <param name="limit"></param>
 		/// <returns></returns>
+		[ProducesResponseType(typeof(IEnumerable<Statement>), StatusCodes.Status200OK)]
 		[HttpGet("/Search")]
 		public async Task<IActionResult> Search([FromQuery] string searchFilter, [FromQuery] int skip = 0, int limit = 10)
 		{
@@ -54,10 +61,12 @@ namespace CollectiveMind.Controllers.Statements
 		/// </summary>
 		/// <param name="statement"></param>
 		/// <returns></returns>
+		[ProducesResponseType(typeof(Statement), StatusCodes.Status201Created)]		
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] Statement statement)
 		{
-			return Ok(await _statementService.CreateStatementAsync(statement));
+			return Created(Request.GetEncodedUrl(), await _statementService.CreateStatementAsync(statement));
 		}
 	}
 }

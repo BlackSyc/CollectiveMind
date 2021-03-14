@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using CollectiveMind.Business.Services.Statements.Arguments;
 using CollectiveMind.Graph.Entities.Nodes;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollectiveMind.Controllers.Statements.Relations
@@ -29,6 +32,8 @@ namespace CollectiveMind.Controllers.Statements.Relations
 		/// <param name="statementId">The identifier of the statement for which all negative arguments will be
 		/// retrieved.</param>
 		/// <returns>A list of all negative arguments for the statement with the specified identifier.</returns>
+		[ProducesResponseType(typeof(IEnumerable<Statement>), StatusCodes.Status200OK)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[HttpGet("/Statement/{statementId}/Negative")]
 		public async Task<IActionResult> Get([FromRoute] Guid statementId)
 		{
@@ -42,10 +47,13 @@ namespace CollectiveMind.Controllers.Statements.Relations
 		/// be created.</param>
 		/// <param name="statement">The statement that will be created as a negative argument for the existing statement.</param>
 		/// <returns>The newly created negative argument statement.</returns>
+		[ProducesResponseType(typeof(Statement), StatusCodes.Status201Created)]		
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[HttpPost("/Statement/{statementId}/Negative")]
 		public async Task<IActionResult> Create([FromRoute] Guid statementId, [FromBody] Statement statement)
 		{
-			return Ok(await _negativeArgumentService.CreateArgumentForAsync(statementId, statement));
+			return Created(Request.GetEncodedUrl(), await _negativeArgumentService.CreateArgumentForAsync(statementId, statement));
 		}
 
 		/// <summary>
@@ -54,6 +62,9 @@ namespace CollectiveMind.Controllers.Statements.Relations
 		/// <param name="statementId">The identifier of the statement the negative argument will be linked to.</param>
 		/// <param name="argumentId">The identifier of the statement that will be used as a negative argument.</param>
 		/// <returns>The updated statement that is now a negative argument to the other statement.</returns>
+		[ProducesResponseType(StatusCodes.Status404NotFound)]
+		[ProducesResponseType(StatusCodes.Status400BadRequest)]
+		[ProducesResponseType(StatusCodes.Status200OK)]
 		[HttpPost("/Statement/{statementId}/Negative/{argumentId}")]
 		public async Task<IActionResult> Link([FromRoute] Guid statementId, [FromRoute] Guid argumentId)
 		{
