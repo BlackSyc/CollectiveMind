@@ -8,9 +8,9 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - CollectiveMindDatabaseConfiguration__ConnectionString=Server=database;Port=3306;Database=CollectiveMind;user=root;password=wachtwoord
       - CollectiveMindDatabaseConfiguration__DatabaseVersion=8.0.22
-      - GraphConnectionDetails__Url=graph:7687
-      - GraphConnectionDetails__Username=neo4j
-      - GraphConnectionDetails__Password=wachtwoord
+      - GraphConnectionConfiguration__Url=graph:7687
+      - GraphConnectionConfiguration__Username=neo4j
+      - GraphConnectionConfiguration__Password=wachtwoord
     build:
       dockerfile: Source/CollectiveMind.Api/Dockerfile
     ports:
@@ -28,6 +28,8 @@ services:
     ports:
       - "1001:7474"
       - "1002:7687"
+    environment:
+      - NEO4JLABS_PLUGINS=["apoc"]
         
   smtp4dev:
     image: rnwood/smtp4dev:v3

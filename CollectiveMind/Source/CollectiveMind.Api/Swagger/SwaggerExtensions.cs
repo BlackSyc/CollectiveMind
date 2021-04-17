@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace CollectiveMind.Swagger
 {
@@ -18,6 +19,9 @@ namespace CollectiveMind.Swagger
 			serviceCollection.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new OpenApiInfo {Title = "CollectiveMind.Api", Version = "v1"});
+				c.CustomOperationIds(apiDesc => apiDesc.TryGetMethodInfo(out var methodInfo) 
+					? $"{apiDesc.ActionDescriptor.RouteValues["controller"]}_{methodInfo.Name}"
+					: $"{apiDesc.ActionDescriptor.RouteValues["controller"]}_{apiDesc.HttpMethod}");
 			});
 
 			return serviceCollection;

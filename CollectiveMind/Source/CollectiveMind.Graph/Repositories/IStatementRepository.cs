@@ -75,5 +75,19 @@ namespace CollectiveMind.Graph.Repositories
 		/// <returns>The updated linked statement as present on the graph.</returns>
 		Task<Statement> LinkExistingStatements<T>(Guid statementId, Guid argumentId) 
 			where T : Relation;
+
+		/// <summary>
+		/// Searches through all statements and returns a page (depending on the pagination parameters) of all
+		/// statements that have a title that matches the provided search filter.
+		/// </summary>
+		/// <param name="searchFilter">The search filter used to search for matching titles.</param>
+		/// <param name="skip">Pagination parameter that indicates how many results should be skipped and
+		/// therefore not returned.</param>
+		/// <param name="limit">Pagination parameter that indicates the maximum amount of results that
+		/// should be returned.</param>
+		/// <param name="cancellationToken">A cancellation token used to cancel the request.</param>
+		/// <returns>A page of statements that match the provided search filter.</returns>
+		Task<IEnumerable<Statement>> SearchByTitleAsync(string searchFilter, int skip, int limit,
+			CancellationToken cancellationToken = default);
 	}
 }

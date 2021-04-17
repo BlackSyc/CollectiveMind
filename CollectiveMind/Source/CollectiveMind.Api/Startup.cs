@@ -54,6 +54,16 @@ namespace CollectiveMind
 			services.AddControllers();
 			services.AddSwaggerServices();
 			services.AddExceptionMiddleware(_currentEnvironment.IsDevelopment());
+			
+			services.AddCors(options =>
+			{
+				options.AddDefaultPolicy(builder =>
+					builder
+						.WithOrigins(new []{"http://localhost:4200"})
+						.AllowAnyHeader()
+						.AllowAnyMethod()
+						.SetIsOriginAllowedToAllowWildcardSubdomains());
+			});
 		}
 
 		/// <summary>
@@ -72,6 +82,7 @@ namespace CollectiveMind
 
 			app.UseProblemDetails();
 			app.UseRouting();
+			app.UseCors();
 
 			app.UseAuthorization();
 
