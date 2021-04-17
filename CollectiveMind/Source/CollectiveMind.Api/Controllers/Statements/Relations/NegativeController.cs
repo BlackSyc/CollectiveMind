@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CollectiveMind.Business.Models;
 using CollectiveMind.Business.Services.Statements.Arguments;
 using CollectiveMind.Graph.Entities.Nodes;
 using Microsoft.AspNetCore.Http;
@@ -45,15 +46,16 @@ namespace CollectiveMind.Controllers.Statements.Relations
 		/// </summary>
 		/// <param name="statementId">The identifier of the existing statement for which the negative argument will
 		/// be created.</param>
-		/// <param name="statement">The statement that will be created as a negative argument for the existing statement.</param>
+		/// <param name="statementParameters">The parameters for the statement that will be created as a
+		/// negative argument for the existing statement.</param>
 		/// <returns>The newly created negative argument statement.</returns>
 		[ProducesResponseType(typeof(Statement), StatusCodes.Status201Created)]		
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[ProducesResponseType(StatusCodes.Status404NotFound)]
 		[HttpPost("/Statement/{statementId}/Negative")]
-		public async Task<IActionResult> Create([FromRoute] Guid statementId, [FromBody] Statement statement)
+		public async Task<IActionResult> Create([FromRoute] Guid statementId, [FromBody] StatementParameters statementParameters)
 		{
-			return Created(Request.GetEncodedUrl(), await _negativeArgumentService.CreateArgumentForAsync(statementId, statement));
+			return Created(Request.GetEncodedUrl(), await _negativeArgumentService.CreateArgumentForAsync(statementId, statementParameters));
 		}
 
 		/// <summary>

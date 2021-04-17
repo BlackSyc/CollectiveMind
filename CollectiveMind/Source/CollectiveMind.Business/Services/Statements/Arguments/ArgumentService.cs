@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
+using CollectiveMind.Business.Models;
 using CollectiveMind.Graph.Entities.Nodes;
 using CollectiveMind.Graph.Entities.Relations;
 using CollectiveMind.Graph.Exceptions;
@@ -30,18 +31,23 @@ namespace CollectiveMind.Business.Services.Statements.Arguments
 		}
 
 		/// <inheritdoc />
-		public async Task<Statement> CreateArgumentForAsync(Guid statementId, Statement newArgument)
+		public async Task<Statement> CreateArgumentForAsync(Guid statementId, StatementParameters newArgumentParameters)
 		{
 			Guard.Against.Default(statementId, nameof(statementId));
-			Guard.Against.Null(newArgument, nameof(newArgument));
+			Guard.Against.Null(newArgumentParameters, nameof(newArgumentParameters));
 
 			if (!await _statementRepository.ExistsAsync(statementId))
 			{
 				throw new EntityNotFoundException(statementId, typeof(Statement));
 			}
 
-			var argument = await _statementRepository
-				.CreateRelatedStatementAsync<T>(statementId, newArgument);
+			var argument = await _statementRepository.CreateRelatedStatementAsync<T>(
+				statementId, 
+				new Statement
+				{
+					Title = newArgumentParameters.Title,
+					Body = newArgumentParameters.Body
+				});
 			return argument;
 		}
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CollectiveMind.Business.Models;
 using CollectiveMind.Business.Services.Statements;
 using CollectiveMind.Graph.Entities.Nodes;
 using Microsoft.AspNetCore.Http;
@@ -43,12 +44,14 @@ namespace CollectiveMind.Controllers.Statements
 		}
 
 		/// <summary>
-		/// 
+		/// Searches through all statements using a search filter and returns matching statements ordered by matching
+		/// keywords.
 		/// </summary>
-		/// <param name="searchFilter"></param>
-		/// <param name="skip"></param>
-		/// <param name="limit"></param>
-		/// <returns></returns>
+		/// <param name="searchFilter">Contains keywords that will be used to find matching statements.</param>
+		/// <param name="skip">Paging parameter specifying the number of results in the ordered list that will be
+		/// skipped.</param>
+		/// <param name="limit">Paging parameter specifying the number of statements that may be returned.</param>
+		/// <returns>A list of matching statements ordered by number of distinct matching keywords.</returns>
 		[ProducesResponseType(typeof(IEnumerable<Statement>), StatusCodes.Status200OK)]
 		[HttpGet("/Search")]
 		public async Task<IActionResult> Search([FromQuery] string searchFilter, [FromQuery] int skip = 0, int limit = 10)
@@ -64,7 +67,7 @@ namespace CollectiveMind.Controllers.Statements
 		[ProducesResponseType(typeof(Statement), StatusCodes.Status201Created)]		
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody] Statement statement)
+		public async Task<IActionResult> Post([FromBody] StatementParameters statement)
 		{
 			return Created(Request.GetEncodedUrl(), await _statementService.CreateStatementAsync(statement));
 		}

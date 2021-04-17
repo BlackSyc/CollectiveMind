@@ -21,6 +21,7 @@ namespace CollectiveMind.Graph.Repositories
 		{
 		}
 
+		/// <inheritdoc />
 		public async Task<IEnumerable<Statement>> SearchByTitleAsync(string searchFilter, int skip, int limit, CancellationToken cancellationToken = default)
 		{
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using CollectiveMind.Business.Models;
 using CollectiveMind.Graph.Entities.Nodes;
 using CollectiveMind.Graph.Exceptions;
 
@@ -17,11 +18,12 @@ namespace CollectiveMind.Business.Services.Statements.Arguments
 		/// Creates a new <see cref="Statement"/> as an argument for an existing statement with the specified identifier.
 		/// </summary>
 		/// <param name="statementId">The identifier of the statement for which an argument will be created.</param>
-		/// <param name="newArgument">The statement that will be created as an argument.</param>
+		/// <param name="newArgumentParameters">The parameters for the statement that will be created as
+		/// an argument.</param>
 		/// <returns>The newly created statement.</returns>
 		/// <exception cref="EntityNotFoundException">When no existing statement with the specified identifier
 		/// was found. The argument is not created.</exception>
-		Task<Statement> CreateArgumentForAsync(Guid statementId, Statement newArgument);
+		Task<Statement> CreateArgumentForAsync(Guid statementId, StatementParameters newArgumentParameters);
 
 		/// <summary>
 		/// Retrieves all arguments for a statement with a specified identifier.
