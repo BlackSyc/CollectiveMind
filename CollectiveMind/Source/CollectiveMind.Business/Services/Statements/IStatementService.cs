@@ -24,9 +24,9 @@ namespace CollectiveMind.Business.Services.Statements
 		Task<Statement> GetStatementByIdAsync(Guid statementId, CancellationToken cancellationToken = default);
 
 		/// <summary>
-		/// Creates a new statement.
+		/// Creates a new statement using the specified statement parameters.
 		/// </summary>
-		/// <param name="newStatement">The statement that will be created.</param>
+		/// <param name="newStatement">The statement parameters for the statement that will be created.</param>
 		/// <returns>The newly created statement.</returns>
 		Task<Statement> CreateStatementAsync(StatementParameters newStatement);
 

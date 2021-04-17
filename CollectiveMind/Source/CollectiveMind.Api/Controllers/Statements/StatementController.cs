@@ -60,16 +60,16 @@ namespace CollectiveMind.Controllers.Statements
 		}
 
 		/// <summary>
-		/// 
+		/// Creates a new statement using the specified statement parameters.
 		/// </summary>
-		/// <param name="statement"></param>
-		/// <returns></returns>
+		/// <param name="statementParameters">The parameters from which the new statement will be created.</param>
+		/// <returns>The newly created statement.</returns>
 		[ProducesResponseType(typeof(Statement), StatusCodes.Status201Created)]		
 		[ProducesResponseType(StatusCodes.Status400BadRequest)]
 		[HttpPost]
-		public async Task<IActionResult> Post([FromBody] StatementParameters statement)
+		public async Task<IActionResult> Post([FromBody] StatementParameters statementParameters)
 		{
-			return Created(Request.GetEncodedUrl(), await _statementService.CreateStatementAsync(statement));
+			return Created(Request.GetEncodedUrl(), await _statementService.CreateStatementAsync(statementParameters));
 		}
 	}
 }
